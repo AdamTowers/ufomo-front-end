@@ -62,30 +62,30 @@ function newUserForm() {
         event.preventDefault()
         //find or create user
         if (userSelectionBox.value) {
-          currentUser = users.find(function(user) {
-            return user.id === 2
+          currentUser = users.find(user => {
+            return user.name === userSelectionBox.value
           })
           loginContainer.remove()
           startGame()
         } else if (newUserText.value) {
           fetch('http://localhost:3000/api/v1/users', {
-            method: 'POST',
-            headers: {
-              'content-type' : 'application/json',
-              'accept' : 'application/json'
-            },
-            body: JSON.stringify({
-              name: newUserText.value
+              method: 'POST',
+              headers: {
+                'content-type': 'application/json',
+                'accept': 'application/json'
+              },
+              body: JSON.stringify({
+                name: newUserText.value
+              })
             })
-          })
-          .then(res => res.json())
-          // .then(json => new User(json))
-          .then(json => new User(json))
-          .then(newuser => {
-            currentUser = newuser
-            loginContainer.remove()
-            startGame()
-          })
+            .then(res => res.json())
+            // .then(json => new User(json))
+            .then(json => new User(json))
+            .then(newuser => {
+              currentUser = newuser
+              loginContainer.remove()
+              startGame()
+            })
           // .then(console.log(currentUser))
           // .then(console.log(currentUser))
         }
@@ -106,8 +106,8 @@ function userFormOption(user) {
 
 function setCurrentUser(id) {
   fetch(`http://localhost:3000/api/v1/users/${id}`)
-  .then(res => res.json())
-  .then(json => currentUser = new User(json))
+    .then(res => res.json())
+    .then(json => currentUser = new User(json))
 }
 
 function startGame() {
@@ -135,10 +135,18 @@ function updateGameArea() {
 
   //moves guy and changes image
 
-  if (myGameArea.key && myGameArea.key == 37) {abductee.speedX = -5, abductee.image.src = "images/blueAbductee.gif"}
-  if (myGameArea.key && myGameArea.key == 38) {abductee.speedY = -5}
-  if (myGameArea.key && myGameArea.key == 39) {abductee.speedX = 5}
-  if (myGameArea.key && myGameArea.key == 40) {abductee.speedY = 5}
+  if (myGameArea.key && myGameArea.key == 37) {
+    abductee.speedX = -5, abductee.image.src = "images/blueAbductee.gif"
+  }
+  if (myGameArea.key && myGameArea.key == 38) {
+    abductee.speedY = -5
+  }
+  if (myGameArea.key && myGameArea.key == 39) {
+    abductee.speedX = 5
+  }
+  if (myGameArea.key && myGameArea.key == 40) {
+    abductee.speedY = 5
+  }
 
   //creates random obstacles
   const images = ["images/flappy.png", "images/plane.png"]
@@ -158,14 +166,14 @@ function updateGameArea() {
 
   if (myGameArea.frameNo == 1 || everyinterval(40)) {
     xAxisStart = randomElement([-100, 400])
-    switch(randomElement(images)) {
+    switch (randomElement(images)) {
       case "images/flappy.png":
         if (xAxisStart === -100) {
           newObstacle = new component(50, 50, "images/flappy.png", xAxisStart, randomNumber(-100, 200), "image")
           newObstacle.speedX = randomDecimal(2.5, 3.5)
           myObstacles.push(newObstacle)
           break
-        } else if (xAxisStart === 400){
+        } else if (xAxisStart === 400) {
           newObstacle = new component(50, 50, "images/flappy.png", xAxisStart, randomNumber(-100, 200), "image")
           newObstacle.speedX = randomDecimal(-3.5, -2.5)
           myObstacles.push(newObstacle)
@@ -177,18 +185,18 @@ function updateGameArea() {
           newObstacle.speedX = randomDecimal(1.5, 2.5)
           myObstacles.push(newObstacle)
           break
-        } else if (xAxisStart === 400){
+        } else if (xAxisStart === 400) {
           newObstacle = new component(200, 50, "images/plane.png", xAxisStart, randomNumber(-50, 250), "image")
           newObstacle.speedX = randomDecimal(-2.5, -1.5)
           myObstacles.push(newObstacle)
           break
         }
-      // default:
-      //   code block
+        // default:
+        //   code block
     }
   }
   for (i = 0; i < myObstacles.length; i += 1) {
-    switch(myObstacles[i].image.outerHTML) {
+    switch (myObstacles[i].image.outerHTML) {
       case `<img src="images/flappy.png">`:
 
         myObstacles[i].x += myObstacles[i].speedX
@@ -254,6 +262,19 @@ var myGameArea = {
     clearInterval(this.interval)
     //let newScore = new score(this.frameNo, selected_user.id)
     //fetch create newScore
+    fetch('http://localhost:3000/api/v1/scores', {
+        method: "POST",
+        headers: {
+          'content-type': 'application/json',
+          'accept': 'application/json'
+        },
+        body: JSON.stringify({
+          quantity: this.frameNo,
+          user_id: currentUser.id
+        })
+      })
+      .then(res => res.json())
+      .then(console.log)
 
   } //game over
 
