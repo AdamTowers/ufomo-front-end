@@ -188,14 +188,14 @@ function updateGameArea() {
     }
   }
   for (i = 0; i < myObstacles.length; i += 1) {
-    switch(myObstacles[i].image.src) {
-      case "file:///Users/christiankim/Development/code/projects/ufomo/ufomo-front-end/images/flappy.png":
+    switch(myObstacles[i].image.outerHTML) {
+      case `<img src="images/flappy.png">`:
 
         myObstacles[i].x += myObstacles[i].speedX
         myObstacles[i].y += 3
         myObstacles[i].update()
         break
-      case "file:///Users/christiankim/Development/code/projects/ufomo/ufomo-front-end/images/plane.png":
+      case `<img src="images/plane.png">`:
         myObstacles[i].x += myObstacles[i].speedX
         myObstacles[i].y += 1
         myObstacles[i].update()
