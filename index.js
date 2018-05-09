@@ -130,53 +130,73 @@ function updateGameArea() {
   myGameArea.clear()
   myGameArea.frameNo += 1
   abductee.speedX = 0
+  abductee.speedY = 0
 
   //moves guy and changes image
-  if (myGameArea.key && myGameArea.key == 37) {
-    abductee.speedX = -5, abductee.image.src = "images/blueAbductee.gif"
-  }
-  if (myGameArea.key && myGameArea.key == 39) {
-    abductee.speedX = 5
-  }
+
+  if (myGameArea.key && myGameArea.key == 37) {abductee.speedX = -5, abductee.image.src = "images/blueAbductee.gif"}
+  if (myGameArea.key && myGameArea.key == 38) {abductee.speedY = -5}
+  if (myGameArea.key && myGameArea.key == 39) {abductee.speedX = 5}
+  if (myGameArea.key && myGameArea.key == 40) {abductee.speedY = 5}
 
   //creates random obstacles
-  const images = ["images/flappy.jpeg", "images/plane.jpeg"]
+  const images = ["images/flappy.png", "images/plane.png"]
 
+  //rng
   function randomElement(array) {
     return array[Math.floor(Math.random() * images.length)]
   }
 
-  if (myGameArea.frameNo == 1 || everyinterval(50)) {
-    x = myGameArea.canvas.width
-    minWidth = 300
-    maxWidth = 100
-    width = randomNumber(minWidth, maxWidth)
-    xAxisStart = randomNumber(0, 400)
-    switch (randomElement(images)) {
-      case "images/flappy.jpeg":
-        newObstacle = new component(x - width, x - width, "images/flappy.jpeg", xAxisStart, -50, "image")
-        newObstacle.speedX += randomElement([-3, 3])
-        myObstacles.push(newObstacle)
-        break
-      case "images/plane.jpeg":
-        newObstacle = new component(x - width, x - width, "images/plane.jpeg", xAxisStart, -50, "image")
-        newObstacle.speedX += randomElement([-3, 3])
-        myObstacles.push(newObstacle)
-        break
-        // default:
-        //   code block
+  function randomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
+  function randomDecimal(min, max) {
+    return (Math.random() * (max - min + 1) + min)
+  }
+
+  if (myGameArea.frameNo == 1 || everyinterval(40)) {
+    xAxisStart = randomElement([-100, 400])
+    switch(randomElement(images)) {
+      case "images/flappy.png":
+        if (xAxisStart === -100) {
+          newObstacle = new component(50, 50, "images/flappy.png", xAxisStart, randomNumber(-100, 200), "image")
+          newObstacle.speedX = randomDecimal(2.5, 3.5)
+          myObstacles.push(newObstacle)
+          break
+        } else if (xAxisStart === 400){
+          newObstacle = new component(50, 50, "images/flappy.png", xAxisStart, randomNumber(-100, 200), "image")
+          newObstacle.speedX = randomDecimal(-3.5, -2.5)
+          myObstacles.push(newObstacle)
+          break
+        }
+      case "images/plane.png":
+        if (xAxisStart === -100) {
+          newObstacle = new component(200, 50, "images/plane.png", xAxisStart, randomNumber(-50, 300), "image")
+          newObstacle.speedX = randomDecimal(1.5, 2.5)
+          myObstacles.push(newObstacle)
+          break
+        } else if (xAxisStart === 400){
+          newObstacle = new component(200, 50, "images/plane.png", xAxisStart, randomNumber(-50, 250), "image")
+          newObstacle.speedX = randomDecimal(-2.5, -1.5)
+          myObstacles.push(newObstacle)
+          break
+        }
+      // default:
+      //   code block
     }
   }
   for (i = 0; i < myObstacles.length; i += 1) {
-    switch (myObstacles[i].image.src) {
-      case "file:///Users/christiankim/Development/code/projects/ufomo/ufomo-front-end/images/flappy.jpeg":
+    switch(myObstacles[i].image.src) {
+      case "file:///Users/christiankim/Development/code/projects/ufomo/ufomo-front-end/images/flappy.png":
+        
         myObstacles[i].x += myObstacles[i].speedX
-        myObstacles[i].y += 4
+        myObstacles[i].y += 3
         myObstacles[i].update()
         break
-      case "file:///Users/christiankim/Development/code/projects/ufomo/ufomo-front-end/images/plane.jpeg":
+      case "file:///Users/christiankim/Development/code/projects/ufomo/ufomo-front-end/images/plane.png":
         myObstacles[i].x += myObstacles[i].speedX
-        myObstacles[i].y += 2
+        myObstacles[i].y += 1
         myObstacles[i].update()
         break
         // default:
@@ -201,10 +221,6 @@ function everyinterval(n) {
   return false
 }
 
-//rng
-function randomNumber(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
 
 
 
@@ -241,67 +257,6 @@ var myGameArea = {
   } //game over
 
 } //game area
-
-
-
-//game components class
-function component(width, height, color, x, y, type) {
-  this.type = type
-  if (type == "image") {
-    this.image = new Image();
-    this.image.src = color;
-  }
-  this.width = width
-  this.height = height
-  this.x = x
-  this.y = y
-  this.speedX = 0
-  this.update = function() {
-    if (this.type === "text") {
-      ctx = myGameArea.context
-      ctx.font = this.width + " " + this.height
-      ctx.fillStyle = color
-      ctx.fillText(this.text, this.x, this.y)
-    } else if (this.type === "image") {
-      ctx = myGameArea.context
-      ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
-    } else {
-      ctx = myGameArea.context
-      ctx.fillStyle = color
-      ctx.fillRect(this.x, this.y, this.width, this.height)
-    }
-  } //update method
-
-  this.newPos = function() {
-    if (this.x < 0) {
-      this.x = 0
-    }
-    if (this.x > 340) {
-      this.x = 340
-    }
-    this.x += this.speedX
-  } //new position method
-
-  this.crashWith = function(otherobj) {
-    var myleft = this.x;
-    var myright = this.x + (this.width);
-    var mytop = this.y;
-    var mybottom = this.y + (this.height);
-    var otherleft = otherobj.x;
-    var otherright = otherobj.x + (otherobj.width);
-    var othertop = otherobj.y;
-    var otherbottom = otherobj.y + (otherobj.height);
-    var crash = true;
-    if ((mybottom < othertop) ||
-      (mytop > otherbottom) ||
-      (myright < otherleft) ||
-      (myleft > otherright)) {
-      crash = false;
-    }
-    return crash;
-  } //crash method
-
-}
 
 //sound class
 function sound(src) {
