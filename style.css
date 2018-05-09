@@ -10,6 +10,18 @@ canvas {
   margin: 0 auto;
 }
 
+
+h4 {
+  font-family: 'Press Start 2P', cursive;
+  color: white;
+}
+
+form {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
 .login-score-container {
   background: black;
   border: 1px solid white;
@@ -21,13 +33,9 @@ canvas {
   text-align: center;
 }
 
-h4 {
-  font-family: 'Press Start 2P', cursive;
-  color: white;
-}
-
-form {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle;
+.form-submit {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
 }

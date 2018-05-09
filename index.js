@@ -1,51 +1,68 @@
+let currentUser
+
 //FUNCTIONS
 
 //NEW USER FORM FUNCTION--------------
 function newUserForm() {
   //fetch all users then create new user objects with those users
   fetch('http://localhost:3000/api/v1/users')
-  .then(res => res.json())
-  .then(json =>
-    {for (let i = 0; i < json.length; i++) {
-      new User(json[i])
-    } return users}
-  )
-  .then(usersArray => {
-    //create login container
-    const loginContainer = document.createElement('div')
-    loginContainer.setAttribute('class', 'login-score-container')
-    //create form
-    const loginForm = document.createElement('form')
-    //create logo img tag
-    const logoImg = document.createElement('img')
-    logoImg.setAttribute('src', 'images/UFOMO.png')
-    loginForm.append(logoImg)
-    //create form header
-    const loginHeader = document.createElement('h4')
-    loginHeader.innerText = 'Login'
-    loginForm.append(loginHeader)
-    //create form selection box
-    const userSelectionBox = document.createElement('select')
-    users.forEach(user => {
-      userSelectionBox.append(userFormOption(user))
+    .then(res => res.json())
+    .then(json => {
+      for (let i = 0; i < json.length; i++) {
+        new User(json[i])
+      }
+      return users
     })
-    //append selection box to form
-    loginForm.append(userSelectionBox)
-    //create create user header
-    const createUserHeader = document.createElement('h4')
-    createUserHeader.innerText = 'Create User'
-    loginForm.append(createUserHeader)
+    .then(usersArray => {
+      //create login container
+      let breakLine = document.createElement('br')
+      const loginContainer = document.createElement('div')
+      loginContainer.setAttribute('class', 'login-score-container')
+      //create form
+      const loginForm = document.createElement('form')
+      //create logo img tag
+      const logoImg = document.createElement('img')
+      logoImg.setAttribute('src', 'images/UFOMO.png')
+      loginForm.append(logoImg)
+      //create form header
+      const loginHeader = document.createElement('h4')
+      loginHeader.innerText = 'Login'
+      loginForm.append(loginHeader)
+      //create form selection box
+      const userSelectionBox = document.createElement('select')
+      users.forEach(user => {
+        userSelectionBox.append(userFormOption(user))
+      })
+      //append selection box to form
+      loginForm.append(userSelectionBox)
+      //create create user header
+      const createUserHeader = document.createElement('h4')
+      createUserHeader.innerText = 'Create User'
+      loginForm.append(createUserHeader)
+      //create new user text area
+      const newUserText = document.createElement('input')
+      newUserText.setAttribute('type', 'text')
+      newUserText.setAttribute('placeholder', 'Username')
+      newUserText.setAttribute('style', 'text-align: center')
+      loginForm.append(newUserText)
+      // //break
+      // loginForm.append(breakLine)
+      //create form submit
+      const submitLogin = document.createElement('input')
+      submitLogin.setAttribute('type', 'submit')
+      submitLogin.setAttribute('value', 'Login')
+      submitLogin.setAttribute('class', 'form-submit')
+      loginForm.append(submitLogin)
+      //append login form to container
+      loginContainer.append(loginForm)
+      //create form dropdown with user instances
+      //create form text field
+      //if text field is not empty, create new user()
+      //after it submits it runs start game
 
-    //append login form to container
-    loginContainer.append(loginForm)
-    //create form dropdown with user instances
-    //create form text field
-    //if text field is not empty, create new user()
-    //after it submits it runs start game
-
-    //append container to body
-    document.body.insertBefore(loginContainer, document.body.childNodes[0])
-  })
+      //append container to body
+      document.body.insertBefore(loginContainer, document.body.childNodes[0])
+    })
 }
 //-------------------------------------
 
@@ -56,12 +73,18 @@ function userFormOption(user) {
   return optionElement
 }
 
+function setCurrentUser(id) {
+  fetch(`http://localhost:3000/api/v1/users/${id}`)
+  .then(res => res.json())
+  .then(json => currentUser = new User(json))
+}
+
 function startGame() {
   abductee = new component(60, 60, "images/abducteeBig.gif", 185, 485, "image")
   score = new component("16px", "Consolas", "white", 10, 590, "text")
 
   myGameArea.start()
-}//start game
+} //start game
 
 const myObstacles = []
 
@@ -72,15 +95,19 @@ function updateGameArea() {
     if (abductee.crashWith(myObstacles[i])) {
       myGameArea.gameOver()
       return
-    }//game over crash
+    } //game over crash
   }
   myGameArea.clear()
   myGameArea.frameNo += 1
   abductee.speedX = 0
 
   //moves guy and changes image
-  if (myGameArea.key && myGameArea.key == 37) {abductee.speedX = -5, abductee.image.src = "images/blueAbductee.gif"}
-  if (myGameArea.key && myGameArea.key == 39) {abductee.speedX = 5}
+  if (myGameArea.key && myGameArea.key == 37) {
+    abductee.speedX = -5, abductee.image.src = "images/blueAbductee.gif"
+  }
+  if (myGameArea.key && myGameArea.key == 39) {
+    abductee.speedX = 5
+  }
 
   //creates random obstacles
   const images = ["images/flappy.jpeg", "images/plane.jpeg"]
@@ -95,7 +122,7 @@ function updateGameArea() {
     maxWidth = 100
     width = randomNumber(minWidth, maxWidth)
     xAxisStart = randomNumber(0, 400)
-    switch(randomElement(images)) {
+    switch (randomElement(images)) {
       case "images/flappy.jpeg":
         newObstacle = new component(x - width, x - width, "images/flappy.jpeg", xAxisStart, -50, "image")
         newObstacle.speedX += randomElement([-3, 3])
@@ -106,12 +133,12 @@ function updateGameArea() {
         newObstacle.speedX += randomElement([-3, 3])
         myObstacles.push(newObstacle)
         break
-      // default:
-      //   code block
+        // default:
+        //   code block
     }
   }
   for (i = 0; i < myObstacles.length; i += 1) {
-    switch(myObstacles[i].image.src) {
+    switch (myObstacles[i].image.src) {
       case "file:///Users/christiankim/Development/code/projects/ufomo/ufomo-front-end/images/flappy.jpeg":
         myObstacles[i].x += myObstacles[i].speedX
         myObstacles[i].y += 4
@@ -122,13 +149,13 @@ function updateGameArea() {
         myObstacles[i].y += 2
         myObstacles[i].update()
         break
-      // default:
-      //   code block
+        // default:
+        //   code block
     }
   }
 
   //score methods
-  score.text="SCORE: " + myGameArea.frameNo
+  score.text = "SCORE: " + myGameArea.frameNo
   score.update()
 
   //guy methods
@@ -138,7 +165,9 @@ function updateGameArea() {
 }
 
 function everyinterval(n) {
-  if ((myGameArea.frameNo / n) % 1 === 0) {return true}
+  if ((myGameArea.frameNo / n) % 1 === 0) {
+    return true
+  }
   return false
 }
 
@@ -162,31 +191,31 @@ var myGameArea = {
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     this.frameNo = 0;
     this.interval = setInterval(updateGameArea, 20)
-    window.addEventListener('keydown', function (e) {
-        myGameArea.key = e.keyCode;
+    window.addEventListener('keydown', function(e) {
+      myGameArea.key = e.keyCode;
     })
-    window.addEventListener('keyup', function (e) {
-        myGameArea.key = false;
+    window.addEventListener('keyup', function(e) {
+      myGameArea.key = false;
     })
-  },//start
+  }, //start
 
   clear: function() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  },//clear
+  }, //clear
 
   gameOver: function() {
     clearInterval(this.interval)
     //let newScore = new score(this.frameNo, selected_user.id)
     //fetch create newScore
 
-  }//game over
+  } //game over
 
-}//game area
+} //game area
 
 
 
 //game components class
-function component (width, height, color, x, y, type){
+function component(width, height, color, x, y, type) {
   this.type = type
   if (type == "image") {
     this.image = new Image();
@@ -211,7 +240,7 @@ function component (width, height, color, x, y, type){
       ctx.fillStyle = color
       ctx.fillRect(this.x, this.y, this.width, this.height)
     }
-  }//update method
+  } //update method
 
   this.newPos = function() {
     if (this.x < 0) {
@@ -221,7 +250,7 @@ function component (width, height, color, x, y, type){
       this.x = 340
     }
     this.x += this.speedX
-  }//new position method
+  } //new position method
 
   this.crashWith = function(otherobj) {
     var myleft = this.x;
@@ -234,13 +263,13 @@ function component (width, height, color, x, y, type){
     var otherbottom = otherobj.y + (otherobj.height);
     var crash = true;
     if ((mybottom < othertop) ||
-           (mytop > otherbottom) ||
-           (myright < otherleft) ||
-           (myleft > otherright)) {
-       crash = false;
+      (mytop > otherbottom) ||
+      (myright < otherleft) ||
+      (myleft > otherright)) {
+      crash = false;
     }
     return crash;
-  }//crash method
+  } //crash method
 
 }
 
