@@ -3,3 +3,11 @@ canvas {
   display: block;
   margin: 0 auto;
 }
+
+.login-score-container {
+  background: black;
+  display: block;
+  margin: 0 auto;
+  height: 600px;
+  width: 400px;
+}

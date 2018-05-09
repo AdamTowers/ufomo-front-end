@@ -1,8 +1,9 @@
 let users = []
 
 class User {
-  constructor(name) {
-    this.name = name
+  constructor(user) {
+    this.id = user.id
+    this.name = user.name
 
     users.push(this)
   }

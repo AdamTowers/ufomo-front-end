@@ -3,14 +3,26 @@
 //NEW USER FORM FUNCTION--------------
 // function newUserForm() {
 //   //fetch all users then create new user objects with those users
-//   fetch('')
-//   //create form div
-//   //create final score header
-//   //create form
-//   //create form dropdown with user instances
-//   //create form text field
-//   //if text field is not empty, create new user()
-//   //after it submits it runs start game
+//   fetch('http://localhost:3000/api/v1/users')
+//   .then(res => res.json())
+//   .then(json =>
+//     {for (let i = 0; i < json.length; i++) {
+//       new User(json[i])
+//     } return users}
+//   )
+//   .then(usersArray => {
+//     let loginContainer = document.createElement('div')
+//     loginContainer.setAttribute('class', 'login-score-container')
+//     document.body.insertBefore(loginContainer, document.body.childNodes[0])
+//
+//     //create form div
+//     //create final score header
+//     //create form
+//     //create form dropdown with user instances
+//     //create form text field
+//     //if text field is not empty, create new user()
+//     //after it submits it runs start game
+//   })
 // }
 //-------------------------------------
 
