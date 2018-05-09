@@ -1,37 +1,120 @@
+let currentUser
+
 //FUNCTIONS
 
 //NEW USER FORM FUNCTION--------------
-// function newUserForm() {
-//   //fetch all users then create new user objects with those users
-//   fetch('http://localhost:3000/api/v1/users')
-//   .then(res => res.json())
-//   .then(json =>
-//     {for (let i = 0; i < json.length; i++) {
-//       new User(json[i])
-//     } return users}
-//   )
-//   .then(usersArray => {
-//     let loginContainer = document.createElement('div')
-//     loginContainer.setAttribute('class', 'login-score-container')
-//     document.body.insertBefore(loginContainer, document.body.childNodes[0])
-//
-//     //create form div
-//     //create final score header
-//     //create form
-//     //create form dropdown with user instances
-//     //create form text field
-//     //if text field is not empty, create new user()
-//     //after it submits it runs start game
-//   })
-// }
+function newUserForm() {
+  //fetch all users then create new user objects with those users
+  fetch('http://localhost:3000/api/v1/users')
+    .then(res => res.json())
+    .then(json => {
+      for (let i = 0; i < json.length; i++) {
+        new User(json[i])
+      }
+      return users
+    })
+    .then(usersArray => {
+      //create login container
+      let breakLine = document.createElement('br')
+      const loginContainer = document.createElement('div')
+      loginContainer.setAttribute('class', 'login-score-container')
+      //create form
+      const loginForm = document.createElement('form')
+      //create logo img tag
+      const logoImg = document.createElement('img')
+      logoImg.setAttribute('src', 'images/UFOMO.png')
+      loginForm.append(logoImg)
+      //create form header
+      const loginHeader = document.createElement('h4')
+      loginHeader.innerText = 'Login'
+      loginForm.append(loginHeader)
+      //create form selection box
+      const userSelectionBox = document.createElement('select')
+      userSelectionBox.innerHTML = "<option disabled selected></option>"
+      users.forEach(user => {
+        userSelectionBox.append(userFormOption(user))
+      })
+      //append selection box to form
+      loginForm.append(userSelectionBox)
+      //create create user header
+      const createUserHeader = document.createElement('h4')
+      createUserHeader.innerText = 'Create User'
+      loginForm.append(createUserHeader)
+      //create new user text area
+      const newUserText = document.createElement('input')
+      newUserText.setAttribute('type', 'text')
+      newUserText.setAttribute('placeholder', 'Username')
+      loginForm.append(newUserText)
+      // //break
+      // loginForm.append(breakLine)
+      //create form submit
+      const submitLogin = document.createElement('input')
+      submitLogin.setAttribute('type', 'submit')
+      submitLogin.setAttribute('value', 'Login')
+      submitLogin.setAttribute('class', 'form-submit')
+      loginForm.append(submitLogin)
+      //append login form to container
+      loginContainer.append(loginForm)
+      //append container to body
+      document.body.insertBefore(loginContainer, document.body.childNodes[0])
+      //add event listener to submit button
+      loginForm.addEventListener('submit', (event) => {
+        event.preventDefault()
+        //find or create user
+        if (userSelectionBox.value) {
+          currentUser = users.find(function(user) {
+            return user.id === 2
+          })
+          startGame()
+        } else if (newUserText.value) {
+          fetch('http://localhost:3000/api/v1/users', {
+            method: 'POST',
+            headers: {
+              'content-type' : 'application/json',
+              'accept' : 'application/json'
+            },
+            body: JSON.stringify({
+              name: newUserText.value
+            })
+          })
+          .then(res => res.json())
+          // .then(json => new User(json))
+          .then(json => new User(json))
+          .then(newuser => {
+            currentUser = newuser
+            startGame()
+          })
+          // .then(console.log(currentUser))
+          // .then(console.log(currentUser))
+        }
+        // //set current current user
+        // loginContainer.remove()
+        // startGame()
+      })
+    })
+}
 //-------------------------------------
 
+function userFormOption(user) {
+  let optionElement = document.createElement('option')
+  optionElement.setAttribute('id', `${user.id}`)
+  optionElement.innerText = `${user.name}`
+  return optionElement
+}
+
+function setCurrentUser(id) {
+  fetch(`http://localhost:3000/api/v1/users/${id}`)
+  .then(res => res.json())
+  .then(json => currentUser = new User(json))
+}
+
 function startGame() {
+  debugger
   abductee = new component(60, 60, "images/abducteeBig.gif", 185, 485, "image")
   score = new component("16px", "Consolas", "white", 10, 590, "text")
 
   myGameArea.start()
-}//start game
+} //start game
 
 const myObstacles = []
 
@@ -42,7 +125,7 @@ function updateGameArea() {
     if (abductee.crashWith(myObstacles[i])) {
       myGameArea.gameOver()
       return
-    }//game over crash
+    } //game over crash
   }
   myGameArea.clear()
   myGameArea.frameNo += 1
@@ -50,6 +133,7 @@ function updateGameArea() {
   abductee.speedY = 0
 
   //moves guy and changes image
+
   if (myGameArea.key && myGameArea.key == 37) {abductee.speedX = -5, abductee.image.src = "images/blueAbductee.gif"}
   if (myGameArea.key && myGameArea.key == 38) {abductee.speedY = -5}
   if (myGameArea.key && myGameArea.key == 39) {abductee.speedX = 5}
@@ -105,6 +189,7 @@ function updateGameArea() {
   for (i = 0; i < myObstacles.length; i += 1) {
     switch(myObstacles[i].image.src) {
       case "file:///Users/christiankim/Development/code/projects/ufomo/ufomo-front-end/images/flappy.png":
+        
         myObstacles[i].x += myObstacles[i].speedX
         myObstacles[i].y += 3
         myObstacles[i].update()
@@ -114,13 +199,13 @@ function updateGameArea() {
         myObstacles[i].y += 1
         myObstacles[i].update()
         break
-      // default:
-      //   code block
+        // default:
+        //   code block
     }
   }
 
   //score methods
-  score.text="SCORE: " + myGameArea.frameNo
+  score.text = "SCORE: " + myGameArea.frameNo
   score.update()
 
   //guy methods
@@ -130,7 +215,9 @@ function updateGameArea() {
 }
 
 function everyinterval(n) {
-  if ((myGameArea.frameNo / n) % 1 === 0) {return true}
+  if ((myGameArea.frameNo / n) % 1 === 0) {
+    return true
+  }
   return false
 }
 
@@ -150,28 +237,26 @@ var myGameArea = {
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     this.frameNo = 0;
     this.interval = setInterval(updateGameArea, 20)
-    window.addEventListener('keydown', function (e) {
-        myGameArea.key = e.keyCode;
+    window.addEventListener('keydown', function(e) {
+      myGameArea.key = e.keyCode;
     })
-    window.addEventListener('keyup', function (e) {
-        myGameArea.key = false;
+    window.addEventListener('keyup', function(e) {
+      myGameArea.key = false;
     })
-  },//start
+  }, //start
 
   clear: function() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-  },//clear
+  }, //clear
 
   gameOver: function() {
     clearInterval(this.interval)
     //let newScore = new score(this.frameNo, selected_user.id)
     //fetch create newScore
 
-  }//game over
+  } //game over
 
-}//game area
-
-
+} //game area
 
 //sound class
 function sound(src) {
