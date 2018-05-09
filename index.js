@@ -30,6 +30,7 @@ function newUserForm() {
       loginForm.append(loginHeader)
       //create form selection box
       const userSelectionBox = document.createElement('select')
+      userSelectionBox.innerHTML = "<option disabled selected></option>"
       users.forEach(user => {
         userSelectionBox.append(userFormOption(user))
       })
@@ -43,7 +44,6 @@ function newUserForm() {
       const newUserText = document.createElement('input')
       newUserText.setAttribute('type', 'text')
       newUserText.setAttribute('placeholder', 'Username')
-      newUserText.setAttribute('style', 'text-align: center')
       loginForm.append(newUserText)
       // //break
       // loginForm.append(breakLine)
@@ -55,13 +55,42 @@ function newUserForm() {
       loginForm.append(submitLogin)
       //append login form to container
       loginContainer.append(loginForm)
-      //create form dropdown with user instances
-      //create form text field
-      //if text field is not empty, create new user()
-      //after it submits it runs start game
-
       //append container to body
       document.body.insertBefore(loginContainer, document.body.childNodes[0])
+      //add event listener to submit button
+      loginForm.addEventListener('submit', (event) => {
+        event.preventDefault()
+        //find or create user
+        if (userSelectionBox.value) {
+          currentUser = users.find(function(user) {
+            return user.id === 2
+          })
+          startGame()
+        } else if (newUserText.value) {
+          fetch('http://localhost:3000/api/v1/users', {
+            method: 'POST',
+            headers: {
+              'content-type' : 'application/json',
+              'accept' : 'application/json'
+            },
+            body: JSON.stringify({
+              name: newUserText.value
+            })
+          })
+          .then(res => res.json())
+          // .then(json => new User(json))
+          .then(json => new User(json))
+          .then(newuser => {
+            currentUser = newuser
+            startGame()
+          })
+          // .then(console.log(currentUser))
+          // .then(console.log(currentUser))
+        }
+        // //set current current user
+        // loginContainer.remove()
+        // startGame()
+      })
     })
 }
 //-------------------------------------
@@ -80,6 +109,7 @@ function setCurrentUser(id) {
 }
 
 function startGame() {
+  debugger
   abductee = new component(60, 60, "images/abducteeBig.gif", 185, 485, "image")
   score = new component("16px", "Consolas", "white", 10, 590, "text")
 

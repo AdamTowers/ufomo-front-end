@@ -3,7 +3,7 @@ body {
 }
 
 canvas {
-  background: black;
+  background: #021621;
   border: 1px solid white;
   box-shadow: 3px 3px 10px;
   display: block;
@@ -23,7 +23,7 @@ form {
 }
 
 .login-score-container {
-  background: black;
+  background: #021621;
   border: 1px solid white;
   box-shadow: 3px 3px 10px;
   display: table;
