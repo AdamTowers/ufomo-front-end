@@ -1,30 +1,60 @@
 //FUNCTIONS
 
 //NEW USER FORM FUNCTION--------------
-// function newUserForm() {
-//   //fetch all users then create new user objects with those users
-//   fetch('http://localhost:3000/api/v1/users')
-//   .then(res => res.json())
-//   .then(json =>
-//     {for (let i = 0; i < json.length; i++) {
-//       new User(json[i])
-//     } return users}
-//   )
-//   .then(usersArray => {
-//     let loginContainer = document.createElement('div')
-//     loginContainer.setAttribute('class', 'login-score-container')
-//     document.body.insertBefore(loginContainer, document.body.childNodes[0])
-//
-//     //create form div
-//     //create final score header
-//     //create form
-//     //create form dropdown with user instances
-//     //create form text field
-//     //if text field is not empty, create new user()
-//     //after it submits it runs start game
-//   })
-// }
+function newUserForm() {
+  //fetch all users then create new user objects with those users
+  fetch('http://localhost:3000/api/v1/users')
+  .then(res => res.json())
+  .then(json =>
+    {for (let i = 0; i < json.length; i++) {
+      new User(json[i])
+    } return users}
+  )
+  .then(usersArray => {
+    //create login container
+    const loginContainer = document.createElement('div')
+    loginContainer.setAttribute('class', 'login-score-container')
+    //create form
+    const loginForm = document.createElement('form')
+    //create logo img tag
+    const logoImg = document.createElement('img')
+    logoImg.setAttribute('src', 'images/UFOMO.png')
+    loginForm.append(logoImg)
+    //create form header
+    const loginHeader = document.createElement('h4')
+    loginHeader.innerText = 'Login'
+    loginForm.append(loginHeader)
+    //create form selection box
+    const userSelectionBox = document.createElement('select')
+    users.forEach(user => {
+      userSelectionBox.append(userFormOption(user))
+    })
+    //append selection box to form
+    loginForm.append(userSelectionBox)
+    //create create user header
+    const createUserHeader = document.createElement('h4')
+    createUserHeader.innerText = 'Create User'
+    loginForm.append(createUserHeader)
+
+    //append login form to container
+    loginContainer.append(loginForm)
+    //create form dropdown with user instances
+    //create form text field
+    //if text field is not empty, create new user()
+    //after it submits it runs start game
+
+    //append container to body
+    document.body.insertBefore(loginContainer, document.body.childNodes[0])
+  })
+}
 //-------------------------------------
+
+function userFormOption(user) {
+  let optionElement = document.createElement('option')
+  optionElement.setAttribute('id', `${user.id}`)
+  optionElement.innerText = `${user.name}`
+  return optionElement
+}
 
 function startGame() {
   abductee = new component(60, 60, "images/abducteeBig.gif", 185, 485, "image")

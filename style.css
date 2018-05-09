@@ -1,13 +1,33 @@
+body {
+  background-color: #023b59;
+}
+
 canvas {
   background: black;
+  border: 1px solid white;
+  box-shadow: 3px 3px 10px;
   display: block;
   margin: 0 auto;
 }
 
 .login-score-container {
   background: black;
-  display: block;
+  border: 1px solid white;
+  box-shadow: 3px 3px 10px;
+  display: table;
   margin: 0 auto;
   height: 600px;
   width: 400px;
+  text-align: center;
+}
+
+h4 {
+  font-family: 'Press Start 2P', cursive;
+  color: white;
+}
+
+form {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
 }
