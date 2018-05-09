@@ -65,6 +65,7 @@ function newUserForm() {
           currentUser = users.find(function(user) {
             return user.id === 2
           })
+          loginContainer.remove()
           startGame()
         } else if (newUserText.value) {
           fetch('http://localhost:3000/api/v1/users', {
@@ -82,6 +83,7 @@ function newUserForm() {
           .then(json => new User(json))
           .then(newuser => {
             currentUser = newuser
+            loginContainer.remove()
             startGame()
           })
           // .then(console.log(currentUser))
@@ -109,7 +111,6 @@ function setCurrentUser(id) {
 }
 
 function startGame() {
-  debugger
   abductee = new component(60, 60, "images/abducteeBig.gif", 185, 485, "image")
   score = new component("16px", "Consolas", "white", 10, 590, "text")
 
@@ -189,7 +190,7 @@ function updateGameArea() {
   for (i = 0; i < myObstacles.length; i += 1) {
     switch(myObstacles[i].image.src) {
       case "file:///Users/christiankim/Development/code/projects/ufomo/ufomo-front-end/images/flappy.png":
-        
+
         myObstacles[i].x += myObstacles[i].speedX
         myObstacles[i].y += 3
         myObstacles[i].update()
