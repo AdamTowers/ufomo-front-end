@@ -1,17 +1,17 @@
 //FUNCTIONS
 
 //NEW USER FORM FUNCTION--------------
-function newUserForm() {
-  //fetch all users then create new user objects with those users
-  fetch('')
-  //create form div
-  //create final score header
-  //create form
-  //create form dropdown with user instances
-  //create form text field
-  //if text field is not empty, create new user()
-  //after it submits it runs start game
-}
+// function newUserForm() {
+//   //fetch all users then create new user objects with those users
+//   fetch('')
+//   //create form div
+//   //create final score header
+//   //create form
+//   //create form dropdown with user instances
+//   //create form text field
+//   //if text field is not empty, create new user()
+//   //after it submits it runs start game
+// }
 //-------------------------------------
 
 function startGame() {
@@ -41,17 +41,48 @@ function updateGameArea() {
   if (myGameArea.key && myGameArea.key == 39) {abductee.speedX = 5}
 
   //creates random obstacles
-  if (myGameArea.frameNo == 1 || everyinterval(75)) {
+  const images = ["images/flappy.jpeg", "images/plane.jpeg"]
+
+  function randomElement(array) {
+    return array[Math.floor(Math.random() * images.length)]
+  }
+
+  if (myGameArea.frameNo == 1 || everyinterval(50)) {
     x = myGameArea.canvas.width
     minWidth = 300
     maxWidth = 100
     width = randomNumber(minWidth, maxWidth)
-    xAxisStart = randomNumber(0, 150)
-    myObstacles.push(new component(x - width, 10, "green", xAxisStart, -50));
+    xAxisStart = randomNumber(0, 400)
+    switch(randomElement(images)) {
+      case "images/flappy.jpeg":
+        newObstacle = new component(x - width, x - width, "images/flappy.jpeg", xAxisStart, -50, "image")
+        newObstacle.speedX += randomElement([-3, 3])
+        myObstacles.push(newObstacle)
+        break
+      case "images/plane.jpeg":
+        newObstacle = new component(x - width, x - width, "images/plane.jpeg", xAxisStart, -50, "image")
+        newObstacle.speedX += randomElement([-3, 3])
+        myObstacles.push(newObstacle)
+        break
+      // default:
+      //   code block
+    }
   }
   for (i = 0; i < myObstacles.length; i += 1) {
-    myObstacles[i].y += 2;
-    myObstacles[i].update();
+    switch(myObstacles[i].image.src) {
+      case "file:///Users/christiankim/Development/code/projects/ufomo/ufomo-front-end/images/flappy.jpeg":
+        myObstacles[i].x += myObstacles[i].speedX
+        myObstacles[i].y += 4
+        myObstacles[i].update()
+        break
+      case "file:///Users/christiankim/Development/code/projects/ufomo/ufomo-front-end/images/plane.jpeg":
+        myObstacles[i].x += myObstacles[i].speedX
+        myObstacles[i].y += 2
+        myObstacles[i].update()
+        break
+      // default:
+      //   code block
+    }
   }
 
   //score methods
