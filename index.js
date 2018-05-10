@@ -106,67 +106,69 @@ function gameOverScreen(currentScore) {
   gScreen.setAttribute('class', 'login-score-container')
 
   fetch('http://localhost:3000/api/v1/scores')
-  .then(response => response.json())
-  .then((json) => {
-    for(const score of json){
-      new Score(score)
-    }
+    .then(response => response.json())
+    .then((json) => {
+      for (const score of json) {
+        new Score(score)
+      }
 
-    return scores
-  })
-  .then((scores) => {
-    sortedScores = scores.sort(function(a, b) { return b.quantity - a.quantity })
-    topFive = [sortedScores[0], sortedScores[1], sortedScores[2], sortedScores[3], sortedScores[4]]
-    //creates game over title
-    const gTitle = document.createElement('img')
-    gTitle.setAttribute('class', 'dead-friend')
-    gTitle.src = "images/yourFriendHasDied.png"
-    gScreen.appendChild(gTitle)
-
-    //creates restart game application
-    const gAbduct = document.createElement('img')
-    gAbduct.setAttribute('class', 'abduct-friend')
-    gAbduct.src = "images/abduct.png"
-    gAbduct.addEventListener('click', () => {
-      gScreen.remove()
-      myGameArea.clear()
-      startGame()
+      return scores
     })
-    gScreen.appendChild(gAbduct)
-
-    //shows your score
-    const gScore = document.createElement('img')
-    gScore.setAttribute('class', 'your-score')
-    gScore.src = "images/yourScore.png"
-    gScreen.appendChild(gScore)
-
-    const gScoreQuantity = document.createElement('h2')
-    gScoreQuantity.setAttribute('class', 'your-score-quantity')
-    gScoreQuantity.innerText = currentScore
-    gScreen.appendChild(gScoreQuantity)
-
-    //shows top 5 scores
-    const gHighScores = document.createElement('img')
-    gHighScores.setAttribute('class', 'high-score')
-    gHighScores.src = "images/Highscores.png"
-    gScreen.appendChild(gHighScores)
-
-    const gHSQ = document.createElement('ol')
-    for(const hs of topFive){
-      hsElement = document.createElement("li")
-      hsElement.setAttribute('class', 'g-hsq')
-      hsUser = users.find(function(user) {
-        return user.id === hs.userId
+    .then((scores) => {
+      sortedScores = scores.sort(function(a, b) {
+        return b.quantity - a.quantity
       })
-      hsElement.innerText = `${hs.quantity}: ` + `${hsUser.name}`
-      gHSQ.appendChild(hsElement)
-    }
-    gScreen.appendChild(gHSQ)
+      topFive = [sortedScores[0], sortedScores[1], sortedScores[2], sortedScores[3], sortedScores[4]]
+      //creates game over title
+      const gTitle = document.createElement('img')
+      gTitle.setAttribute('class', 'dead-friend')
+      gTitle.src = "images/yourFriendHasDied.png"
+      gScreen.appendChild(gTitle)
 
-    //renders game over screen
-    document.body.insertBefore(gScreen, document.body.childNodes[0])
+      //creates restart game application
+      const gAbduct = document.createElement('img')
+      gAbduct.setAttribute('class', 'abduct-friend')
+      gAbduct.src = "images/abduct.png"
+      gAbduct.addEventListener('click', () => {
+        gScreen.remove()
+        myGameArea.clear()
+        startGame()
+      })
+      gScreen.appendChild(gAbduct)
 
-  })
+      //shows your score
+      const gScore = document.createElement('img')
+      gScore.setAttribute('class', 'your-score')
+      gScore.src = "images/yourScore.png"
+      gScreen.appendChild(gScore)
+
+      const gScoreQuantity = document.createElement('h2')
+      gScoreQuantity.setAttribute('class', 'your-score-quantity')
+      gScoreQuantity.innerText = currentScore
+      gScreen.appendChild(gScoreQuantity)
+
+      //shows top 5 scores
+      const gHighScores = document.createElement('img')
+      gHighScores.setAttribute('class', 'high-score')
+      gHighScores.src = "images/Highscores.png"
+      gScreen.appendChild(gHighScores)
+
+      const gHSQ = document.createElement('div')
+      for (const hs of topFive) {
+        hsElement = document.createElement("p")
+        hsElement.setAttribute('class', 'g-hsq')
+        hsUser = users.find(function(user) {
+          return user.id === hs.userId
+        })
+        hsElement.innerText = `${hs.quantity}: ` + `${hsUser.name}`
+        gHSQ.appendChild(hsElement)
+      }
+      gScreen.appendChild(gHSQ)
+
+      //renders game over screen
+      document.body.insertBefore(gScreen, document.body.childNodes[0])
+
+    })
 
 }
 //-------------------------------------
@@ -242,9 +244,9 @@ function updateGameArea() {
 
   //creates random obstacles
   const images = [
-  "images/bluebird.png",
-  "images/cardinal.png",
-  "images/plane.png"
+    "images/bluebird.png",
+    "images/cardinal.png",
+    "images/plane.png"
   ]
 
   //rng

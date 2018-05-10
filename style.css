@@ -12,7 +12,7 @@ canvas {
 
 
 h4 {
-  font-family: 'Press Start 2P', cursive;
+  font-family: 'Press Start 2P', courier;
   color: white;
 }
 
@@ -36,13 +36,12 @@ form {
 .dead-friend {
   width: 350px;
   height: 50px;
-  margin-top: 50px;
 }
 
 .abduct-friend {
   width: 250px;
   height: 30px;
-  margin-top: 80px;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   display: block;
@@ -51,20 +50,22 @@ form {
 .your-score {
   width: 100px;
   height: 20px;
-  margin-top: 70px;
+  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   display: block;
+  font-family:
 }
 
 .your-score-quantity {
-  width: 100px;
-  height: 20px;
   color: white;
   margin-top: 10px;
+  margin-bottom: 20px;
   margin-left: auto;
   margin-right: auto;
   display: block;
+  font-size: 2em;
+  font-family: 'Press Start 2P', courier;
 }
 
 .high-score {
@@ -83,6 +84,8 @@ form {
   margin-top: 10px;
   display: block;
   text-align: center;
+  font-family: 'Press Start 2P', courier;
+  font-size: 0.75em;
 }
 
 .form-submit {
