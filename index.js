@@ -95,6 +95,84 @@ function newUserForm() {
       })
     })
 }
+
+//game over screen --------------------
+function gameOverScreen(currentScore) {
+  //removes game canvas
+  myGameArea.canvas.remove()
+
+  //creates game over screen
+  const gScreen = document.createElement('div')
+  gScreen.setAttribute('class', 'login-score-container')
+
+  fetch('http://localhost:3000/api/v1/scores')
+  .then(response => response.json())
+  .then((json) => {
+    for(const score of json){
+      new Score(score)
+    }
+
+    return scores
+  })
+  .then((scores) => {
+    sortedScores = scores.sort(function(a, b) { return b.quantity - a.quantity })
+    topFive = [sortedScores[0], sortedScores[1], sortedScores[2], sortedScores[3], sortedScores[4]]
+    //creates game over title
+    const gTitle = document.createElement('img')
+    gTitle.setAttribute('class', 'dead-friend')
+    gTitle.src = "images/yourFriendHasDied.png"
+    gScreen.appendChild(gTitle)
+
+    //creates restart game application
+    const gAbduct = document.createElement('img')
+    gAbduct.setAttribute('class', 'abduct-friend')
+    gAbduct.src = "images/abduct.png"
+    gAbduct.addEventListener('click', () => {
+      gScreen.remove()
+      myGameArea.clear()
+      startGame()
+    })
+    gScreen.appendChild(gAbduct)
+
+    //shows your score
+    const gScore = document.createElement('img')
+    gScore.setAttribute('class', 'your-score')
+    gScore.src = "images/yourScore.png"
+    gScreen.appendChild(gScore)
+
+    const gScoreQuantity = document.createElement('h2')
+    gScoreQuantity.setAttribute('class', 'your-score-quantity')
+    gScoreQuantity.innerText = currentScore
+    gScreen.appendChild(gScoreQuantity)
+
+    //shows top 5 scores
+    const gHighScores = document.createElement('img')
+    gHighScores.setAttribute('class', 'high-score')
+    gHighScores.src = "images/Highscores.png"
+    gScreen.appendChild(gHighScores)
+
+    const gHSQ = document.createElement('ol')
+    for(const hs of topFive){
+      hsElement = document.createElement("li")
+      hsElement.setAttribute('class', 'g-hsq')
+      hsUser = users.find(function(user) {
+        return user.id === hs.userId
+      })
+      hsElement.innerText = `${hs.quantity}: ` + `${hsUser.name}`
+      gHSQ.appendChild(hsElement)
+    }
+    gScreen.appendChild(gHSQ)
+
+    //renders game over screen
+    document.body.insertBefore(gScreen, document.body.childNodes[0])
+
+  })
+
+}
+//-------------------------------------
+
+
+
 //-------------------------------------
 
 function userFormOption(user) {
@@ -111,10 +189,17 @@ function setCurrentUser(id) {
 }
 
 function startGame() {
-  abductee = new component(60, 60, "images/abducteeBig.gif", 185, 485, "image")
-  score = new component("16px", "Consolas", "white", 10, 590, "text")
+  abductee = new component(30, 60, "images/abductee.png", 185, 485, "image")
+  score = new component("16px", "Consolas", "white", 10, 20, "text")
+  background = new component(80, 600, "images/beam.png", 160, 0, "image")
+
+  scream = document.getElementById("scream")
+  friend = document.getElementById("friend")
+  friend.loop = true
+  friend.play()
 
   myGameArea.start()
+
 } //start game
 
 const myObstacles = []
@@ -124,32 +209,43 @@ function updateGameArea() {
   var y, width, gap, minWidth, maxWidth, minGap, maxGap
   for (var i = 0; i < myObstacles.length; i++) {
     if (abductee.crashWith(myObstacles[i])) {
+      scream.play()
       myGameArea.gameOver()
       return
     } //game over crash
   }
   myGameArea.clear()
+  //sets background image again
   myGameArea.frameNo += 1
   abductee.speedX = 0
   abductee.speedY = 0
+  background.speedX = 0
 
   //moves guy and changes image
 
   if (myGameArea.key && myGameArea.key == 37) {
-    abductee.speedX = -5, abductee.image.src = "images/blueAbductee.gif"
+    abductee.speedX = -5, background.speedX = -5, abductee.image.src = "images/abducteeLeft.png"
   }
   if (myGameArea.key && myGameArea.key == 38) {
-    abductee.speedY = -5
+    abductee.speedY = -5, abductee.image.src = "images/abducteeUp.png"
   }
   if (myGameArea.key && myGameArea.key == 39) {
-    abductee.speedX = 5
+    abductee.speedX = 5, background.speedX = 5, abductee.image.src = "images/abducteeRight.png"
   }
   if (myGameArea.key && myGameArea.key == 40) {
-    abductee.speedY = 5
+    abductee.speedY = 5, abductee.image.src = "images/abducteeDown.png"
   }
 
+  //background methods
+  background.newPos();
+  background.update()
+
   //creates random obstacles
-  const images = ["images/flappy.png", "images/plane.png"]
+  const images = [
+  "images/bluebird.png",
+  "images/cardinal.png",
+  "images/plane.png"
+  ]
 
   //rng
   function randomElement(array) {
@@ -164,30 +260,42 @@ function updateGameArea() {
     return (Math.random() * (max - min + 1) + min)
   }
 
-  if (myGameArea.frameNo == 1 || everyinterval(40)) {
-    xAxisStart = randomElement([-100, 400])
+  if (myGameArea.frameNo == 1 || everyinterval(25)) {
+    xAxisStart = randomElement([-200, 400])
     switch (randomElement(images)) {
-      case "images/flappy.png":
+      case "images/bluebird.png":
         if (xAxisStart === -100) {
-          newObstacle = new component(50, 50, "images/flappy.png", xAxisStart, randomNumber(-100, 200), "image")
-          newObstacle.speedX = randomDecimal(2.5, 3.5)
+          newObstacle = new component(50, 35, "images/bluebird.png", -100, randomNumber(-50, 450), "image")
+          newObstacle.speedX = randomDecimal(2.5, 4.5)
           myObstacles.push(newObstacle)
           break
         } else if (xAxisStart === 400) {
-          newObstacle = new component(50, 50, "images/flappy.png", xAxisStart, randomNumber(-100, 200), "image")
-          newObstacle.speedX = randomDecimal(-3.5, -2.5)
+          newObstacle = new component(50, 35, "images/dribeulb.png", 400, randomNumber(-50, 450), "image")
+          newObstacle.speedX = randomDecimal(-4.5, -2.5)
+          myObstacles.push(newObstacle)
+          break
+        }
+      case "images/cardinal.png":
+        if (xAxisStart === -100) {
+          newObstacle = new component(50, 35, "images/cardinal.png", -100, randomNumber(-50, 450), "image")
+          newObstacle.speedX = randomDecimal(3.5, 5.5)
+          myObstacles.push(newObstacle)
+          break
+        } else if (xAxisStart === 400) {
+          newObstacle = new component(50, 35, "images/lanidrac.png", 400, randomNumber(-50, 450), "image")
+          newObstacle.speedX = randomDecimal(-5.5, -3.5)
           myObstacles.push(newObstacle)
           break
         }
       case "images/plane.png":
         if (xAxisStart === -100) {
-          newObstacle = new component(200, 50, "images/plane.png", xAxisStart, randomNumber(-50, 300), "image")
-          newObstacle.speedX = randomDecimal(1.5, 2.5)
+          newObstacle = new component(250, 75, "images/plane.png", -300, randomNumber(-50, 450), "image")
+          newObstacle.speedX = randomDecimal(2.0, 2.5)
           myObstacles.push(newObstacle)
           break
         } else if (xAxisStart === 400) {
-          newObstacle = new component(200, 50, "images/plane.png", xAxisStart, randomNumber(-50, 250), "image")
-          newObstacle.speedX = randomDecimal(-2.5, -1.5)
+          newObstacle = new component(250, 75, "images/enalp.png", 400, randomNumber(-50, 450), "image")
+          newObstacle.speedX = randomDecimal(-2.5, -2.0)
           myObstacles.push(newObstacle)
           break
         }
@@ -197,13 +305,32 @@ function updateGameArea() {
   }
   for (i = 0; i < myObstacles.length; i += 1) {
     switch (myObstacles[i].image.outerHTML) {
-      case `<img src="images/flappy.png">`:
-
+      case `<img src="images/bluebird.png">`:
         myObstacles[i].x += myObstacles[i].speedX
-        myObstacles[i].y += 3
+        myObstacles[i].y += randomDecimal(2.0, 2.5)
+        myObstacles[i].update()
+        break
+      case `<img src="images/dribeulb.png">`:
+        myObstacles[i].x += myObstacles[i].speedX
+        myObstacles[i].y += randomDecimal(2.0, 2.5)
+        myObstacles[i].update()
+        break
+      case `<img src="images/cardinal.png">`:
+        myObstacles[i].x += myObstacles[i].speedX
+        myObstacles[i].y += randomDecimal(2.0, 2.5)
+        myObstacles[i].update()
+        break
+      case `<img src="images/lanidrac.png">`:
+        myObstacles[i].x += myObstacles[i].speedX
+        myObstacles[i].y += randomDecimal(2.0, 2.5)
         myObstacles[i].update()
         break
       case `<img src="images/plane.png">`:
+        myObstacles[i].x += myObstacles[i].speedX
+        myObstacles[i].y += 1
+        myObstacles[i].update()
+        break
+      case `<img src="images/enalp.png">`:
         myObstacles[i].x += myObstacles[i].speedX
         myObstacles[i].y += 1
         myObstacles[i].update()
@@ -274,7 +401,10 @@ var myGameArea = {
         })
       })
       .then(res => res.json())
-      .then(console.log)
+      .then(
+        gameOverScreen(this.frameNo)
+      )
+
 
   } //game over
 
@@ -287,7 +417,7 @@ function sound(src) {
   this.sound.setAttribute("preload", "auto")
   this.sound.setAttribute("controls", "none")
   this.sound.style.display = "none"
-  document.body.appendChild(this)
+  myGameArea.canvas.appendChild(this)
   this.play = function() {
     this.sound.play()
   }

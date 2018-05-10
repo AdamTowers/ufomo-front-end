@@ -1,9 +1,9 @@
 let scores = []
 
 class Score {
-  constructor(quantity, user_id) {
-    this.quantity = quantity
-    this.userId = user_id
+  constructor(data) {
+    this.quantity = data.quantity
+    this.userId = data.user_id
 
     scores.push(this)
   }

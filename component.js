@@ -31,8 +31,8 @@ function component (width, height, color, x, y, type){
     if (this.x < 0) {
       this.x = 0
     }
-    if (this.x > 340) {
-      this.x = 340
+    if (this.x > 370) {
+      this.x = 370
     }
     if (this.y < 0) {
       this.y = 0
