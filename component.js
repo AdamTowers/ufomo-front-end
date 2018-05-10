@@ -28,11 +28,11 @@ function component (width, height, color, x, y, type){
   }//update method
 
   this.newPos = function() {
-    if (this.x < 0) {
-      this.x = 0
+    if (this.x < 23) {
+      this.x = 23
     }
-    if (this.x > 370) {
-      this.x = 370
+    if (this.x > 345) {
+      this.x = 345
     }
     if (this.y < 0) {
       this.y = 0
