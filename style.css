@@ -10,10 +10,17 @@ canvas {
   margin: 0 auto;
 }
 
+h2 {
+  font-family: 'Press Start 2P', courier;
+  color: #1aadff;
+}
+
+
+
 
 h4 {
   font-family: 'Press Start 2P', courier;
-  color: white;
+  color: #ffe130;
 }
 
 form {
@@ -31,6 +38,12 @@ form {
   height: 600px;
   width: 400px;
   text-align: center;
+}
+
+.g-screen-container {
+  display: table-cell;
+  /* text-align: center; */
+  vertical-align: middle;
 }
 
 .dead-friend {
