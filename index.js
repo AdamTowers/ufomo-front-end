@@ -26,7 +26,7 @@ function newUserForm() {
       loginForm.append(logoImg)
       //create form header
       const loginHeader = document.createElement('h4')
-      loginHeader.innerText = 'Login'
+      loginHeader.innerText = 'LOGIN'
       loginForm.append(loginHeader)
       //create form selection box
       const userSelectionBox = document.createElement('select')
@@ -38,7 +38,7 @@ function newUserForm() {
       loginForm.append(userSelectionBox)
       //create create user header
       const createUserHeader = document.createElement('h4')
-      createUserHeader.innerText = 'Create User'
+      createUserHeader.innerText = 'CREATE USER'
       loginForm.append(createUserHeader)
       //create new user text area
       const newUserText = document.createElement('input')
@@ -48,17 +48,10 @@ function newUserForm() {
       // //break
       // loginForm.append(breakLine)
       //create form submit
-      const submitLogin = document.createElement('input')
-      submitLogin.setAttribute('type', 'submit')
-      submitLogin.setAttribute('value', 'Login')
-      submitLogin.setAttribute('class', 'form-submit')
-      loginForm.append(submitLogin)
-      //append login form to container
-      loginContainer.append(loginForm)
-      //append container to body
-      document.body.insertBefore(loginContainer, document.body.childNodes[0])
-      //add event listener to submit button
-      loginForm.addEventListener('submit', (event) => {
+      const submitLogin = document.createElement('button')
+      // submitLogin.setAttribute('type', 'submit')
+      submitLogin.innerText = "PLAY"
+      submitLogin.addEventListener('click', (event) => {
         event.preventDefault()
         //find or create user
         if (userSelectionBox.value) {
@@ -93,6 +86,14 @@ function newUserForm() {
         // loginContainer.remove()
         // startGame()
       })
+      // submitLogin.setAttribute('value', 'Login')
+      // submitLogin.setAttribute('class', 'form-submit')
+      loginForm.append(submitLogin)
+      //append login form to container
+      loginContainer.append(loginForm)
+      //append container to body
+      document.body.insertBefore(loginContainer, document.body.childNodes[0])
+      //add event listener to submit button
     })
 }
 
@@ -101,72 +102,90 @@ function gameOverScreen(currentScore) {
   //removes game canvas
   myGameArea.canvas.remove()
 
+
   //creates game over screen
   const gScreen = document.createElement('div')
   gScreen.setAttribute('class', 'login-score-container')
 
+  //create div to center
+  const gScreenContainer = document.createElement('div')
+  gScreenContainer.setAttribute('class', 'g-screen-container')
+
   fetch('http://localhost:3000/api/v1/scores')
-  .then(response => response.json())
-  .then((json) => {
-    for(const score of json){
-      new Score(score)
-    }
+    .then(response => response.json())
+    .then((json) => {
+      for (const score of json) {
+        new Score(score)
+      }
 
-    return scores
-  })
-  .then((scores) => {
-    sortedScores = scores.sort(function(a, b) { return b.quantity - a.quantity })
-    topFive = [sortedScores[0], sortedScores[1], sortedScores[2], sortedScores[3], sortedScores[4]]
-    //creates game over title
-    const gTitle = document.createElement('img')
-    gTitle.setAttribute('class', 'dead-friend')
-    gTitle.src = "images/yourFriendHasDied.png"
-    gScreen.appendChild(gTitle)
-
-    //creates restart game application
-    const gAbduct = document.createElement('img')
-    gAbduct.setAttribute('class', 'abduct-friend')
-    gAbduct.src = "images/abduct.png"
-    gAbduct.addEventListener('click', () => {
-      gScreen.remove()
-      myGameArea.clear()
-      startGame()
+      return scores
     })
-    gScreen.appendChild(gAbduct)
-
-    //shows your score
-    const gScore = document.createElement('img')
-    gScore.setAttribute('class', 'your-score')
-    gScore.src = "images/yourScore.png"
-    gScreen.appendChild(gScore)
-
-    const gScoreQuantity = document.createElement('h2')
-    gScoreQuantity.setAttribute('class', 'your-score-quantity')
-    gScoreQuantity.innerText = currentScore
-    gScreen.appendChild(gScoreQuantity)
-
-    //shows top 5 scores
-    const gHighScores = document.createElement('img')
-    gHighScores.setAttribute('class', 'high-score')
-    gHighScores.src = "images/Highscores.png"
-    gScreen.appendChild(gHighScores)
-
-    const gHSQ = document.createElement('ol')
-    for(const hs of topFive){
-      hsElement = document.createElement("li")
-      hsElement.setAttribute('class', 'g-hsq')
-      hsUser = users.find(function(user) {
-        return user.id === hs.userId
+    .then((scores) => {
+      sortedScores = scores.sort(function(a, b) {
+        return b.quantity - a.quantity
       })
-      hsElement.innerText = `${hs.quantity}: ` + `${hsUser.name}`
-      gHSQ.appendChild(hsElement)
-    }
-    gScreen.appendChild(gHSQ)
+      topFive = [sortedScores[0], sortedScores[1], sortedScores[2], sortedScores[3], sortedScores[4]]
+      //creates game over title
+      const gTitle = document.createElement('img')
+      gTitle.setAttribute('class', 'dead-friend')
+      gTitle.src = "images/your-friend-has-died.png"
+      gScreenContainer.appendChild(gTitle)
 
-    //renders game over screen
-    document.body.insertBefore(gScreen, document.body.childNodes[0])
+      //creates restart game application
+      const gAbduct = document.createElement('h4')
+      gAbduct.innerText = "ABDUCT ANOTHER FRIEND?"
+      gScreenContainer.appendChild(gAbduct)
 
-  })
+      const gAbductButton = document.createElement('button')
+      gAbductButton.innerText = "RESTART"
+      // gAbduct.setAttribute('class', 'abduct-friend')
+      // gAbduct.src = "images/abduct.png"
+      gAbductButton.addEventListener('click', (event) => {
+        event.preventDefault()
+        location.reload()
+        // gScreen.remove()
+        // myGameArea.clear()
+        // startGame()
+      })
+      gScreenContainer.appendChild(gAbductButton)
+
+      //shows your score
+      const gScore = document.createElement('h5')
+      // gScore.setAttribute('class', 'your-score')
+      // gScore.src = "images/yourScore.png"
+      gScore.innerText = "YOUR SCORE"
+      gScreenContainer.appendChild(gScore)
+
+      const gScoreQuantity = document.createElement('h2')
+      gScoreQuantity.setAttribute('class', 'your-score-quantity')
+      gScoreQuantity.innerText = currentScore
+      gScreenContainer.appendChild(gScoreQuantity)
+
+      //shows top 5 scores
+      const gHighScores = document.createElement('h5')
+      // gHighScores.setAttribute('class', 'high-score')
+      // gHighScores.src = "images/Highscores.png"
+      gHighScores.innerHTML = "HIGH SCORES"
+      gScreenContainer.appendChild(gHighScores)
+
+      const gHSQ = document.createElement('div')
+      for (const hs of topFive) {
+        hsElement = document.createElement("p")
+        hsElement.setAttribute('class', 'g-hsq')
+        hsUser = users.find(function(user) {
+          return user.id === hs.userId
+        })
+        hsElement.innerText = `${hsUser.name}: ` + `${hs.quantity}`
+        gHSQ.appendChild(hsElement)
+      }
+      gScreenContainer.appendChild(gHSQ)
+
+      gScreen.appendChild(gScreenContainer)
+
+      //renders game over screen
+      document.body.insertBefore(gScreen, document.body.childNodes[0])
+
+    })
 
 }
 //-------------------------------------
@@ -242,9 +261,9 @@ function updateGameArea() {
 
   //creates random obstacles
   const images = [
-  "images/bluebird.png",
-  "images/cardinal.png",
-  "images/plane.png"
+    "images/bluebird.png",
+    "images/cardinal.png",
+    "images/plane.png"
   ]
 
   //rng
