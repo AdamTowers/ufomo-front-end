@@ -190,8 +190,8 @@ function setCurrentUser(id) {
 
 function startGame() {
   abductee = new component(30, 60, "images/abductee.png", 185, 485, "image")
-  score = new component("16px", "Consolas", "white", 10, 20, "text")
-  background = new component(80, 600, "images/beam.png", 160, 0, "image")
+  score = new component("16px", "Consolas", "pink", 10, 20, "text")
+  background = new background(80, 600, "images/beam.png", 160, 0, "image")
 
   scream = document.getElementById("scream")
   friend = document.getElementById("friend")
@@ -223,16 +223,16 @@ function updateGameArea() {
 
   //moves guy and changes image
 
-  if (myGameArea.key && myGameArea.key == 37) {
+  if (myGameArea.key && myGameArea.key === 37) {
     abductee.speedX = -5, background.speedX = -5, abductee.image.src = "images/abducteeLeft.png"
   }
-  if (myGameArea.key && myGameArea.key == 38) {
+  if (myGameArea.key && myGameArea.key === 38) {
     abductee.speedY = -5, abductee.image.src = "images/abducteeUp.png"
   }
-  if (myGameArea.key && myGameArea.key == 39) {
+  if (myGameArea.key && myGameArea.key === 39) {
     abductee.speedX = 5, background.speedX = 5, abductee.image.src = "images/abducteeRight.png"
   }
-  if (myGameArea.key && myGameArea.key == 40) {
+  if (myGameArea.key && myGameArea.key === 40) {
     abductee.speedY = 5, abductee.image.src = "images/abducteeDown.png"
   }
 
