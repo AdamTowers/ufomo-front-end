@@ -126,7 +126,7 @@ function gameOverScreen(currentScore) {
       topFive = [sortedScores[0], sortedScores[1], sortedScores[2], sortedScores[3], sortedScores[4]]
       //creates game over title
       const gTitle = document.createElement('img')
-      // gTitle.setAttribute('class', 'dead-friend')
+      gTitle.setAttribute('class', 'dead-friend')
       gTitle.src = "images/your-friend-has-died.png"
       gScreenContainer.appendChild(gTitle)
 
@@ -149,9 +149,10 @@ function gameOverScreen(currentScore) {
       gScreenContainer.appendChild(gAbductButton)
 
       //shows your score
-      const gScore = document.createElement('img')
-      gScore.setAttribute('class', 'your-score')
-      gScore.src = "images/yourScore.png"
+      const gScore = document.createElement('h5')
+      // gScore.setAttribute('class', 'your-score')
+      // gScore.src = "images/yourScore.png"
+      gScore.innerText = "YOUR SCORE"
       gScreenContainer.appendChild(gScore)
 
       const gScoreQuantity = document.createElement('h2')
@@ -160,9 +161,10 @@ function gameOverScreen(currentScore) {
       gScreenContainer.appendChild(gScoreQuantity)
 
       //shows top 5 scores
-      const gHighScores = document.createElement('img')
-      gHighScores.setAttribute('class', 'high-score')
-      gHighScores.src = "images/Highscores.png"
+      const gHighScores = document.createElement('h5')
+      // gHighScores.setAttribute('class', 'high-score')
+      // gHighScores.src = "images/Highscores.png"
+      gHighScores.innerHTML = "HIGH SCORES"
       gScreenContainer.appendChild(gHighScores)
 
       const gHSQ = document.createElement('div')
