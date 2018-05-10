@@ -33,6 +33,58 @@ form {
   text-align: center;
 }
 
+.dead-friend {
+  width: 350px;
+  height: 50px;
+  margin-top: 50px;
+}
+
+.abduct-friend {
+  width: 250px;
+  height: 30px;
+  margin-top: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.your-score {
+  width: 100px;
+  height: 20px;
+  margin-top: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.your-score-quantity {
+  width: 100px;
+  height: 20px;
+  color: white;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.high-score {
+  width: 100px;
+  height: 20px;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.g-hsq {
+  width: 400px;
+  height: 20px;
+  color: white;
+  margin-top: 10px;
+  display: block;
+  text-align: center;
+}
+
 .form-submit {
   display: block;
   margin-left: auto;
