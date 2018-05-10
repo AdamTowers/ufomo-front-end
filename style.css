@@ -30,10 +30,13 @@ button {
   border: none;
   color: white;
   padding: 5px 25px;
-  margin-bottom: 20px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 20px;
+  margin-bottom: 40px;
   font-size: 12px;
   font-family: 'Press Start 2P', courier;
 }

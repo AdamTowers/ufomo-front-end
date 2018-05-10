@@ -48,17 +48,10 @@ function newUserForm() {
       // //break
       // loginForm.append(breakLine)
       //create form submit
-      const submitLogin = document.createElement('input')
-      submitLogin.setAttribute('type', 'submit')
-      submitLogin.setAttribute('value', 'Login')
-      submitLogin.setAttribute('class', 'form-submit')
-      loginForm.append(submitLogin)
-      //append login form to container
-      loginContainer.append(loginForm)
-      //append container to body
-      document.body.insertBefore(loginContainer, document.body.childNodes[0])
-      //add event listener to submit button
-      loginForm.addEventListener('submit', (event) => {
+      const submitLogin = document.createElement('button')
+      // submitLogin.setAttribute('type', 'submit')
+      submitLogin.innerText = "PLAY"
+      submitLogin.addEventListener('click', (event) => {
         event.preventDefault()
         //find or create user
         if (userSelectionBox.value) {
@@ -93,6 +86,14 @@ function newUserForm() {
         // loginContainer.remove()
         // startGame()
       })
+      // submitLogin.setAttribute('value', 'Login')
+      // submitLogin.setAttribute('class', 'form-submit')
+      loginForm.append(submitLogin)
+      //append login form to container
+      loginContainer.append(loginForm)
+      //append container to body
+      document.body.insertBefore(loginContainer, document.body.childNodes[0])
+      //add event listener to submit button
     })
 }
 
