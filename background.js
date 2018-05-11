@@ -1,4 +1,4 @@
-function background (width, height, color, x, y, type){
+function Background (width, height, color, x, y, type){
   this.type = type
   if (type == "image") {
     this.image = new Image();

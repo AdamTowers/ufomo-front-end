@@ -1,5 +1,5 @@
 //game components class
-function component (width, height, color, x, y, type){
+function Component (width, height, color, x, y, type){
   this.type = type
   if (type == "image") {
     this.image = new Image();
