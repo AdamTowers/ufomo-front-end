@@ -43,7 +43,7 @@ function newUserForm() {
       //create new user text area
       const newUserText = document.createElement('input')
       newUserText.setAttribute('type', 'text')
-      newUserText.setAttribute('placeholder', 'Username')
+      newUserText.setAttribute('placeholder', '5 characters max')
       loginForm.append(newUserText)
       // //break
       // loginForm.append(breakLine)
@@ -63,7 +63,7 @@ function newUserForm() {
             loginContainer.remove()
             startGame()
           }, 5000)
-        } else if (newUserText.value) {
+        } else if (newUserText.value && !users.find(user => {return user.name == newUserText.value}) && newUserText.value.length < 6 ) {
           fetch('http://localhost:3000/api/v1/users', {
               method: 'POST',
               headers: {
@@ -86,6 +86,8 @@ function newUserForm() {
                 startGame()
               }, 5000)
             })
+        } else {
+          location.reload()
         }
       })
       loginForm.append(submitLogin)
