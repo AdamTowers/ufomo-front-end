@@ -54,7 +54,7 @@ function newUserForm() {
       submitLogin.addEventListener('click', (event) => {
         event.preventDefault()
         //find or create user
-        if (userSelectionBox.value) {
+        if (userSelectionBox.value && !newUserText.value) {
           currentUser = users.find(user => {
             return user.name === userSelectionBox.value
           })
@@ -63,7 +63,7 @@ function newUserForm() {
             loginContainer.remove()
             startGame()
           }, 5000)
-        } else if (newUserText.value && !users.find(user => {return user.name == newUserText.value}) && newUserText.value.length < 6 ) {
+        } else if (newUserText.value && !users.find(user => {return user.name == newUserText.value}) && newUserText.value.length < 6 && !userSelectionBox.value) {
           fetch('http://localhost:3000/api/v1/users', {
               method: 'POST',
               headers: {
