@@ -59,9 +59,10 @@ function newUserForm() {
             return user.name === userSelectionBox.value
           })
           showInstructions(loginContainer)
-          window.setInterval(function() {
+          window.setTimeout(function() {
             loginContainer.remove()
-            startGame() }, 5000)
+            startGame()
+          }, 5000)
         } else if (newUserText.value) {
           fetch('http://localhost:3000/api/v1/users', {
               method: 'POST',
@@ -78,19 +79,11 @@ function newUserForm() {
             .then(json => new User(json))
             .then(newuser => {
               currentUser = newuser
-              // window.setInterval(console.log("hello"), 5000)
               loginContainer.remove()
               startGame()
             })
-          // .then(console.log(currentUser))
-          // .then(console.log(currentUser))
         }
-        // //set current current user
-        // loginContainer.remove()
-        // startGame()
       })
-      // submitLogin.setAttribute('value', 'Login')
-      // submitLogin.setAttribute('class', 'form-submit')
       loginForm.append(submitLogin)
       //append login form to container
       loginContainer.append(loginForm)
@@ -101,12 +94,12 @@ function newUserForm() {
 }
 
 function showInstructions(loginContainer) {
-  // const loginContainer = document.getElementById('login-score-container')
-  // debugger
   loginContainer.innerHTML = `
     <div class="g-screen-container">
-      <h4>Greetings!</h4>
-      <p>I don't know dude</p>
+      <h4>Greetings, ${currentUser.name}!</h4>
+      <p>We know you want to hang out with a new human friend. However, it will take a while to beam him
+        up to the ship.</p>
+      <p>Use the ◀, ▶, ▲, ▼ keys to navigate him away from anything that might kill him!</p>
     </div>
   `
 }
@@ -152,21 +145,14 @@ function gameOverScreen(currentScore) {
 
       const gAbductButton = document.createElement('button')
       gAbductButton.innerText = "RESTART"
-      // gAbduct.setAttribute('class', 'abduct-friend')
-      // gAbduct.src = "images/abduct.png"
       gAbductButton.addEventListener('click', (event) => {
         event.preventDefault()
         location.reload()
-        // gScreen.remove()
-        // myGameArea.clear()
-        // startGame()
       })
       gScreenContainer.appendChild(gAbductButton)
 
       //shows your score
       const gScore = document.createElement('h5')
-      // gScore.setAttribute('class', 'your-score')
-      // gScore.src = "images/yourScore.png"
       gScore.innerText = "YOUR SCORE"
       gScreenContainer.appendChild(gScore)
 
@@ -177,8 +163,6 @@ function gameOverScreen(currentScore) {
 
       //shows top 5 scores
       const gHighScores = document.createElement('h5')
-      // gHighScores.setAttribute('class', 'high-score')
-      // gHighScores.src = "images/Highscores.png"
       gHighScores.innerHTML = "HIGH SCORES"
       gScreenContainer.appendChild(gHighScores)
 
@@ -368,8 +352,6 @@ function updateGameArea() {
         myObstacles[i].y += 1
         myObstacles[i].update()
         break
-        // default:
-        //   code block
     }
   }
 
@@ -420,8 +402,6 @@ var myGameArea = {
 
   gameOver: function() {
     clearInterval(this.interval)
-    //let newScore = new score(this.frameNo, selected_user.id)
-    //fetch create newScore
     fetch('http://localhost:3000/api/v1/scores', {
         method: "POST",
         headers: {
