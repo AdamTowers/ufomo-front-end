@@ -1,5 +1,6 @@
 body {
   background-color: #023b59;
+  font-family: 'Press Start 2P', courier;
 }
 
 canvas {
@@ -11,25 +12,28 @@ canvas {
 }
 
 h2 {
-  font-family: 'Press Start 2P', courier;
   color: #1aadff;
 }
 
 h4 {
-  font-family: 'Press Start 2P', courier;
   color: #ffe130;
 }
 
 h5 {
-  font-family: 'Press Start 2P', courier;
   color: #1aadff;
+}
+
+p {
+  color: white;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 button {
   background-color: #1aadff;
   border: none;
   color: white;
-  padding: 5px 25px;
+  padding: 7px 25px;
   text-align: center;
   text-decoration: none;
   display: block;
@@ -47,6 +51,13 @@ form {
   vertical-align: middle;
 }
 
+footer {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 8px;
+  color: #82cfd7;
+}
+
 .login-score-container {
   background: #021621;
   border: 1px solid white;
@@ -56,11 +67,11 @@ form {
   height: 600px;
   width: 400px;
   text-align: center;
+  padding: 0px 25px;
 }
 
 .g-screen-container {
   display: table-cell;
-  /* text-align: center; */
   vertical-align: middle;
 }
 
@@ -95,7 +106,6 @@ form {
   margin-right: auto;
   display: block;
   font-size: 2em;
-  font-family: 'Press Start 2P', courier;
 }
 
 .high-score {
@@ -114,7 +124,6 @@ form {
   margin-top: 10px;
   display: block;
   text-align: center;
-  font-family: 'Press Start 2P', courier;
   font-size: 0.75em;
 }
 
