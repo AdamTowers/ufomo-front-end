@@ -79,8 +79,12 @@ function newUserForm() {
             .then(json => new User(json))
             .then(newuser => {
               currentUser = newuser
-              loginContainer.remove()
-              startGame()
+              showInstructions(loginContainer)
+
+              window.setTimeout(function() {
+                loginContainer.remove()
+                startGame()
+              }, 5000)
             })
         }
       })
@@ -207,7 +211,7 @@ function setCurrentUser(id) {
 
 function startGame() {
   abductee = new Component(30, 60, "images/abductee.png", 185, 485, "image")
-  score = new Component("16px", "Consolas", "pink", 10, 20, "text")
+  score = new Component("16px", "courier", "cyan", 10, 20, "text")
   background = new Background(80, 600, "images/beam.png", 160, 0, "image")
   stars = new Background(400, 600, "images/stars.jpg", 0, 0, "image")
 

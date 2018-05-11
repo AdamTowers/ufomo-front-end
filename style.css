@@ -4,7 +4,7 @@ body {
 }
 
 canvas {
-  background: #021621;
+  /* background: #021621; */
   border: 1px solid white;
   box-shadow: 3px 3px 10px;
   display: block;
@@ -59,7 +59,8 @@ footer {
 }
 
 .login-score-container {
-  background: #021621;
+  background-image: url('images/stars.jpg');
+  background-size: cover;
   border: 1px solid white;
   box-shadow: 3px 3px 10px;
   display: table;
@@ -67,12 +68,12 @@ footer {
   height: 600px;
   width: 400px;
   text-align: center;
-  padding: 0px 25px;
 }
 
 .g-screen-container {
   display: table-cell;
   vertical-align: middle;
+  padding: 0px 25px;
 }
 
 .dead-friend {
