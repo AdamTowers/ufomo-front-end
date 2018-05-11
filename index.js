@@ -58,8 +58,10 @@ function newUserForm() {
           currentUser = users.find(user => {
             return user.name === userSelectionBox.value
           })
-          loginContainer.remove()
-          startGame()
+          showInstructions(loginContainer)
+          window.setInterval(function() {
+            loginContainer.remove()
+            startGame() }, 5000)
         } else if (newUserText.value) {
           fetch('http://localhost:3000/api/v1/users', {
               method: 'POST',
@@ -76,6 +78,7 @@ function newUserForm() {
             .then(json => new User(json))
             .then(newuser => {
               currentUser = newuser
+              // window.setInterval(console.log("hello"), 5000)
               loginContainer.remove()
               startGame()
             })
@@ -95,6 +98,17 @@ function newUserForm() {
       document.body.insertBefore(loginContainer, document.body.childNodes[0])
       //add event listener to submit button
     })
+}
+
+function showInstructions(loginContainer) {
+  // const loginContainer = document.getElementById('login-score-container')
+  // debugger
+  loginContainer.innerHTML = `
+    <div class="g-screen-container">
+      <h4>Greetings!</h4>
+      <p>I don't know dude</p>
+    </div>
+  `
 }
 
 //game over screen --------------------
