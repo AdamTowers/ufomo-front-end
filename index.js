@@ -285,41 +285,41 @@ function updateGameArea() {
     return (Math.random() * (max - min + 1) + min)
   }
 
-  if (myGameArea.frameNo == 1 || everyinterval(45)) {
+  if (myGameArea.frameNo == 1 || everyinterval(30)) {
     xAxisStart = randomElement([-100, 400])
     switch (randomElement(images)) {
       case "images/bluebird.png":
         if (xAxisStart === -100) {
-          newObstacle = new Component(50, 35, "images/bluebird.png", -100, randomNumber(-50, 450), "image")
+          newObstacle = new Component(50, 35, "images/bluebird.png", -100, randomNumber(-150, 350), "image")
           newObstacle.speedX = randomDecimal(1.5, 3.5)
           myObstacles.push(newObstacle)
           break
         } else if (xAxisStart === 400) {
-          newObstacle = new Component(50, 35, "images/dribeulb.png", 400, randomNumber(-50, 450), "image")
+          newObstacle = new Component(50, 35, "images/dribeulb.png", 400, randomNumber(-150, 350), "image")
           newObstacle.speedX = randomDecimal(-3.5, -1.5)
           myObstacles.push(newObstacle)
           break
         }
       case "images/cardinal.png":
         if (xAxisStart === -100) {
-          newObstacle = new Component(50, 35, "images/cardinal.png", -100, randomNumber(-50, 450), "image")
+          newObstacle = new Component(50, 35, "images/cardinal.png", -100, randomNumber(-150, 350), "image")
           newObstacle.speedX = randomDecimal(1.5, 3.5)
           myObstacles.push(newObstacle)
           break
         } else if (xAxisStart === 400) {
-          newObstacle = new Component(50, 35, "images/lanidrac.png", 400, randomNumber(-50, 450), "image")
+          newObstacle = new Component(50, 35, "images/lanidrac.png", 400, randomNumber(-150, 350), "image")
           newObstacle.speedX = randomDecimal(-3.5, -1.5)
           myObstacles.push(newObstacle)
           break
         }
       case "images/plane.png":
         if (xAxisStart === -100) {
-          newObstacle = new Component(250, 100, "images/plane.png", -300, randomNumber(-50, 450), "image")
+          newObstacle = new Component(200, 80, "images/plane.png", -300, randomNumber(-150, 350), "image")
           newObstacle.speedX = randomDecimal(2.0, 2.5)
           myObstacles.push(newObstacle)
           break
         } else if (xAxisStart === 400) {
-          newObstacle = new Component(250, 100, "images/enalp.png", 400, randomNumber(-50, 450), "image")
+          newObstacle = new Component(200, 80, "images/enalp.png", 400, randomNumber(-150, 350), "image")
           newObstacle.speedX = randomDecimal(-2.5, -2.0)
           myObstacles.push(newObstacle)
           break
