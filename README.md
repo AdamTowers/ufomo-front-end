@@ -14,7 +14,7 @@ The goal was to create a single page application using Javascript to handle the 
 
 ## Video Demo
 
-Click [here](add youtube link) for a video demonstration of the project.
+Click [here](https://www.youtube.com/watch?v=I0hwrVA2Y9w&feature=youtu.be) for a video demonstration of the project.
 
 ### Contributors Guide
 
