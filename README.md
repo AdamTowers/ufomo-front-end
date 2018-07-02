@@ -1,19 +1,20 @@
-# U.F.O.M.O
+## UFOMO (backend)
 
 <hr>
 
-## Setup
+After years of drifting alone in the galaxy, wouldn't you get lonely? Follow this lonely alien and his quest to make a friend. Use the arrow keys to control your friend to maneuver around potential harmful obstacles. Make sure he gets to your ship safely!
 
-1. Enter `bundle install` before running the game to get all the necessary gems.
-2. Run `rails db:create` and `rails db:migrate` to build the database structure. You'll need to have Postgres installed and running.
-3. Run the program by opening the index.html file in your browser.
+The goal was to create a single page application using Javascript to handle the UX. For the graphics, we used an 8-bit picture editor, and we integrated Ruby on Rails to handle new users and their high scores.
 
-## Gameplay
+## Concerns and Issues
 
-1. Use the ◀, ▶, ▲, ▼ keys to navigate the abductee away from any moving obstacles.
-2. Last as long as you can!
+* Addition of game progression and levels
+* Would like to add new obstacles
+* Refactoring and cleaning up of code
 
-<hr>
+## Video Demo
+
+Click [here](add youtube link) for a video demonstration of the project.
 
 ### Contributors Guide
 
@@ -23,7 +24,3 @@ We are not taking contributions at this time.
 Half Bit by Kevin MacLeod is licensed under a Creative [Commons Attribution license](https://creativecommons.org/licenses/by/4.0/).<br>
 [Source](http://incompetech.com/music/royalty-free/?keywords=%22half+bit%22),
 [Artist](http://incompetech.com/)
-
-#### Created by
-Christian Kim, christian.kim@flatironschool.com<br>
-Adam Towers, adam.towers@flatironschool.com
