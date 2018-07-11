@@ -1,18 +1,20 @@
 # UFOMO (frontend)
 ### A side scrolling Javascript game with retro 80s appeal
 
-<br>
 
 After years of drifting alone in the galaxy, wouldn't you get lonely? Follow this lonely alien and his quest to make a friend. Use the arrow keys to control your friend to maneuver around potential harmful obstacles. Make sure he gets to your ship safely!
 
 ## Technology Used
-- Created back end API with Ruby on Rails to persist users and high scores
+Front End (this repo)
 - Utilized vanilla Javascript front end
 - Implemented game logic and controls in HTML5 Canvas
-- Used custom CSS and graphics to design front end
+- Used custom CSS and graphics
 
-### Contributors Guide
+[Back End](https://github.com/AdamTowers/ufomo-back-end)
+- Created back end API with Ruby on Rails to persist users and high scores
 
+
+### Contributing
 We are not taking contributions at this time.
 
 ### Music
@@ -21,5 +23,5 @@ Half Bit by Kevin MacLeod is licensed under a Creative [Commons Attribution lice
 [Artist](http://incompetech.com/)
 
 ### Created by
-Christian Kim, christian.kim@flatironschool.com <br>
-Adam Towers, adam.towers@flatironschool.com
+Christian Kim, [Github](https://github.com/Queeshon) <br>
+Adam Towers, [Github](https://github.com/adamtowers)
