@@ -1,6 +1,7 @@
-# UFOMO (frontend)
+# UFOMO (Front End)
 ### A side scrolling Javascript game with retro 80s appeal
 
+![U.F.O.M.O. GIF](https://media.giphy.com/media/2YbTVbuN9HeHl8pRI4/giphy.gif)
 
 After years of drifting alone in the galaxy, wouldn't you get lonely? Follow this lonely alien and his quest to make a friend. Use the arrow keys to control your friend to maneuver around potential harmful obstacles. Make sure he gets to your ship safely!
 
